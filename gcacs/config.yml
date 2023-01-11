@@ -1,0 +1,31 @@
+appearance:
+  title: "ForAllSecure demo Gitlab"
+  #logo: "https://storage.googleapis.com/forallsecure-website.appspot.com/fas-logo-block.svg"
+
+settings:
+  # elasticsearch:
+  #   url: http://elasticsearch.mygitlab.com
+  #   username: !env ELASTICSEARCH_USERNAME
+  #   password: !env ELASTICSEARCH_PASSWORD
+  recaptcha_enabled: no
+  #terms: !include toc.md
+  # plantuml:
+  #   enabled: true
+  #   url: 'http://plantuml.url'
+
+features:
+  # - name: sourcegraph
+  #   value: true
+  #   groups:
+  #     - mygroup1
+  #   projects:
+  #     - mygroup2/myproject
+  #   users:
+  #     - myuser
+
+instance_variables:
+  MY_VARIABLE: 'value of my instance variable'
+  # ANOTHER_VARIABLE:
+  #   value: !env SOME_PASSWORD
+  #   masked: true
+  #   protected: false
