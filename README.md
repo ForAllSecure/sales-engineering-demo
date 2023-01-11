@@ -6,10 +6,6 @@ https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/
 # Installation
 
 - Clone the repository and cd into it
-```sh
-docker-compose up -d
-```
-
 Create a `.env` file in the root with
 
 ```
@@ -17,9 +13,14 @@ GITLAB_ROOT_PASSWORD=<something complicated>
 GITLAB_RUNNER_REGISTRATION_TOKEN=<leave empty>
 ```
 
-This password will be used as both root login password and root API token. The configgers should wait until Gitlab is up and running (via health check).
+This password will be used as both root login password and root API token. We'll fill in the registration token layer.
 
-Some of them will fails, mainly because the Runner Registration token needs to be retrieved manually from http://localhost:8080/admin/runners :(.
+Exeute:
+```sh
+docker-compose up -d
+```
+
+The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from http://localhost:8080/admin/runners :(.
 
 Go to `.env` and add it once you can:
 
@@ -30,17 +31,25 @@ docker-compose start gitlab-runner-register
 and if that works (a runner shows up in the UI)
 
 ```sh
+docker-compose restart gitlab-runner
+```
+
+If that doesn't work, try:
+```sh
+docker-compose stop gitlab-runner
 docker-compose rm gitlab-runner
 docker-compose create gitlab-runner
 docker-compose start gitlab-runner
 ```
+
+If you end up with multiple runners, that's okay. As long as one of them works.
 
 # Stop
 Shut down with
 ```sh
 docker-compose stop
 ```
-(not `down`, since Gitlab will reinstall itself then)
+(not `down`, since Gitlab will reinstall itself afterwards then)
 
 Also, when it's sucking up CPU, use the `docker-compose pause` and `docker-compose unpause` commands.
 
