@@ -12,16 +12,18 @@ https://github.com/vitalyisaev2/gitlab_token/compare/main...vlussenburg:gitlab_t
 import sys
 import requests
 import json
+import os
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
-endpoint = "http://localhost:8080"
+endpoint = "http://gitlab"
+#endpoint = "http://localhost:8080"
 root_route = urljoin(endpoint, "/")
 sign_in_route = urljoin(endpoint, "/users/sign_in")
 pat_route = urljoin(endpoint, "/-/profile/personal_access_tokens")
 
 login = "root"
-password = "qq6UGBwB1orpinslu3e9Tr7M0CawTv2a7U8BJbA6eNg="
+password = os.environ["GITLAB_ROOT_PASSWORD"]
 
 
 def find_csrf_token(text):

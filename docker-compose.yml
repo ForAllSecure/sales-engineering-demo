@@ -1,31 +1,26 @@
 version: "3.4"
 services:
-  gitlab-casc:
-    image: hoffmannlaroche/gcasc
-    container_name: gitlab-casc
-    depends_on:
-      - gitlab
-    links:
-      - gitlab:gitlab
-    volumes:
-      - ./gcacs:/workspace
-    environment:
-      - GITLAB_CLIENT_CONFIG_FILE=/workspace/client.cfg 
-      - GITLAB_CONFIG_FILE=/workspace/config.yml 
-
+  # the main deal
   gitlab:
+    # Using the arm64 version for Mac M1. Use the commented version otherwise
+    # image: 'gitlab/gitlab-ce'
     image: 'yrzr/gitlab-ce-arm64v8'
     restart: always
-    hostname: 'gitlab.local'
+    hostname: 'localhost'
     container_name: gitlab-ce
     privileged: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
       - postgresql
     links:
       - postgresql:postgresql
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        gitlab_rails['initial_root_password'] = 'qq6UGBwB1orpinslu3e9Tr7M0CawTv2a7U8BJbA6eNg='
+        gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD:?}'
 
         postgresql['enable'] = false
         gitlab_rails['db_username'] = "gitlab"
@@ -35,18 +30,85 @@ services:
         gitlab_rails['db_database'] = "gitlabhq_production"
         gitlab_rails['db_adapter'] = 'postgresql'
         gitlab_rails['db_encoding'] = 'utf8'
-        external_url 'http://gitlab.local'
+
+        external_url 'http://localhost'
     ports:
       - "8080:80"
       - "8043:443"
       - "8022:22"
+    environment:
+      - GITLAB_ROOT_PASSWORD
     volumes:
-      # inserts PAT token ypCa3Dzb23o5nvsixwPA
+      # inserts PAT token (from .env GITLAB_ROOT_PASSWORD)
       - ./gitlab/25_api_personal_access_token.rb:/opt/gitlab/embedded/service/gitlab-rails/db/fixtures/production/25_api_personal_access_token.rb
-    #   - ./gitlab-config:/etc/gitlab
-    #   - ./gitlab-logs:/var/log/gitlab
-    #   - ./gitlab-data:/var/opt/gitlab
+    
+      # Currently not persisting volumes because this is a throwaway container
+      #   - ./gitlab-config:/etc/gitlab
+      #   - ./gitlab-logs:/var/log/gitlab
+      #   - ./gitlab-data:/var/opt/gitlab
 
+  # this registers the runner and writes to the config.toml
+  gitlab-runner-register:
+    image: gitlab/gitlab-runner
+    # todo: get this registration from the gitlab api using some script
+    # todo: probably we want a docker type executor, not shell
+    # new retrieved from http://localhost:8080/admin/runners > Register an instance runner
+    command: 'register --executor shell --registration-token ${GITLAB_RUNNER_REGISTRATION_TOKEN} --url http://gitlab -n'
+    restart: "no"
+    depends_on:
+      gitlab:
+        condition: service_healthy
+    links:
+      - gitlab:gitlab
+    volumes:
+      - ./gitlab-runner:/etc/gitlab-runner
+
+  # this clones and pushes our two example repos to Gitlab. Not very pretty, but it works.
+  # if you make changes to the shell script run with --force-recreate
+  mayhem-action-example-pusher:
+    image: alpine
+    entrypoint: sh
+    command: /mayhem-action-example-pusher.sh
+    restart: "no"
+    depends_on:
+      gitlab:
+        condition: service_healthy
+    volumes:
+      - ./mayhem-action-example-pusher.sh:/mayhem-action-example-pusher.sh
+    environment:
+      - GITLAB_ROOT_PASSWORD
+
+  # this is the actual runner that depends on being bootstrapped by gitlab-runner-register
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    container_name: gitlab-runner
+    pull_policy: build
+    restart: unless-stopped
+    depends_on:
+      - gitlab-runner-register
+    volumes:
+      - ./gitlab-runner:/etc/gitlab-runner
+      # for mCode later
+      #- /var/run/docker.sock:/var/run/docker.sock
+
+  # Gitlabs Configuration as Code (CasC).
+  # Currently not used - keeping around for a bit
+  # gitlab-casc:
+  #   image: hoffmannlaroche/gcasc
+  #   restart: "no"
+  #   depends_on:
+  #     gitlab:
+  #       condition: service_healthy
+  #   links:
+  #     - gitlab:gitlab
+  #   volumes:
+  #     - ./gcacs:/workspace
+  #   environment:
+  #     - GITLAB_CLIENT_CONFIG_FILE=/workspace/client.cfg
+  #     - GITLAB_CONFIG_FILE=/workspace/config.yml
+  #     - GITLAB_ROOT_PASSWORD
+
+  # had issues with the embedded postgres, so use an external one
   postgresql:
     restart: always
     image: postgres:13.6-alpine
@@ -57,6 +119,7 @@ services:
       - POSTGRES_DB=gitlabhq_production
       - TZ=America/Bogota
       - PGDATA=/data
+    # Currently not persisting volumes because this is a throwaway container
     # volumes:
     #   - ./gitlab-db-data:/data
     ports:
