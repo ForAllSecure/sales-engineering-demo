@@ -20,9 +20,9 @@ Exeute:
 docker-compose up -d
 ```
 
-The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from http://localhost:8080/admin/runners :(.
+The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from http://localhost:8080/admin/runners > Register an instance runner. Copy it there, paste it into the `GITLAB_RUNNER_REGISTRATION_TOKEN` field in `.env`.
 
-Go to `.env` and add it once you can:
+Then.
 
 ```sh
 docker-compose start gitlab-runner-register
@@ -56,7 +56,7 @@ Also, when it's sucking up CPU, use the `docker-compose pause` and `docker-compo
 # Future work
 
 - Currently clones and pushes the current state of the Github project into Gitlab. We could modify the scripts so it can be ran multiple times where if the project already exists it pushes whatever new code we find on Github, or deletes the projects via REST API or something
-- Obviously we'd love to not hardcode passwords and api keys
+- Obviously we'd love to bypass the runner registration token. There's some links in the Appendix, it seems doable.
 
 # Cheat sheet
 Pushing a repo into Gitlab

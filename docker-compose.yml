@@ -50,9 +50,7 @@ services:
   # this registers the runner and writes to the config.toml
   gitlab-runner-register:
     image: gitlab/gitlab-runner
-    # todo: get this registration from the gitlab api using some script
     # todo: probably we want a docker type executor, not shell
-    # new retrieved from http://localhost:8080/admin/runners > Register an instance runner
     command: 'register --executor shell --registration-token ${GITLAB_RUNNER_REGISTRATION_TOKEN} --url http://gitlab -n'
     restart: "no"
     depends_on:
