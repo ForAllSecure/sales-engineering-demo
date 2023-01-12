@@ -25,21 +25,7 @@ The configgers should wait until Gitlab is up and running (via health check). So
 Then.
 
 ```sh
-docker-compose start gitlab-runner-register
-```
-
-and if that works (a runner shows up in the UI)
-
-```sh
-docker-compose restart gitlab-runner
-```
-
-If that doesn't work, try:
-```sh
-docker-compose stop gitlab-runner
-docker-compose rm gitlab-runner
-docker-compose create gitlab-runner
-docker-compose start gitlab-runner
+docker-compose up gitlab-runner --force-recreate
 ```
 
 If you end up with multiple runners, that's okay. As long as one of them works.
