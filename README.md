@@ -15,7 +15,7 @@ GITLAB_RUNNER_REGISTRATION_TOKEN=<leave empty>
 
 This password will be used as both root login password and root API token. We'll fill in the registration token layer.
 
-Exeute:
+Execute:
 ```sh
 docker-compose up -d
 ```
@@ -30,7 +30,16 @@ docker-compose up gitlab-runner --force-recreate -d
 
 If you end up with multiple runners, that's okay. As long as one of them works.
 
-# Stop
+# Gitlab project manual setup work (for now, can be automated)
+
+- Go to localhost:8080 and log in
+- Go to Projects > mapi-action-examples
+- Go to Settings > Merge Request and enable merge requests to require a successful pipeline request
+- Go to merge request and create a new one from `bad-login-endpoint` to `main`
+- ???
+- Profit!
+
+# When you want to stop
 Shut down with
 ```sh
 docker-compose stop
