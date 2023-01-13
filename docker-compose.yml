@@ -59,7 +59,7 @@ services:
     links:
       - gitlab:gitlab
     volumes:
-      - ./gitlab-runner:/etc/gitlab-runner
+      - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
 
   # this clones and pushes our two example repos to Gitlab. Not very pretty, but it works.
   # if you make changes to the shell script run with --force-recreate
@@ -78,14 +78,12 @@ services:
 
   # this is the actual runner that depends on being bootstrapped by gitlab-runner-register
   gitlab-runner:
-    image: gitlab/gitlab-runner
+    build: ./gitlab-runner
     container_name: gitlab-runner
-    pull_policy: build
-    restart: unless-stopped
     depends_on:
       - gitlab-runner-register
     volumes:
-      - ./gitlab-runner:/etc/gitlab-runner
+      - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
       # for mCode later
       #- /var/run/docker.sock:/var/run/docker.sock
 
