@@ -1,15 +1,20 @@
+#!/bin/bash
+
 echo 'Installing git'
 apk fix && apk --no-cache --update add git
 
-echo 'Cloning mapi'
-rm -rf mapi-action-examples.git
-git clone --mirror https://github.com/vlussenburg/mapi-action-examples/
-cd mapi-action-examples.git
-git push --set-upstream http://root:${GITLAB_ROOT_PASSWORD}@gitlab/root/mapi-action-examples.git --all
-cd .. 
 
-echo 'Cloning mcode'
-rm -rf mcode-action-examples.git
-git clone --mirror https://github.com/vlussenburg/mcode-action-examples/
-cd mcode-action-examples.git
-git push --set-upstream http://root:${GITLAB_ROOT_PASSWORD}@gitlab/root/mcode-action-examples.git --all
+for repository in mapi-action-examples mcode-action-examples
+do
+    rm -rf  $repository.git
+    git clone --mirror https://github.com/vlussenburg/$repository/
+done
+
+while true
+do
+   for repository in mapi-action-examples mcode-action-examples
+   do
+        ( cd $repository.git && git remote update && git push --mirror http://root:${GITLAB_ROOT_PASSWORD}@gitlab/root/$repository.git )
+   done
+   sleep 60
+done

@@ -61,7 +61,7 @@ services:
     volumes:
       - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
 
-  # this clones and pushes our two example repos to Gitlab. Not very pretty, but it works.
+  # this clones, pushes and keeps mirroring our example repos to Gitlab. 
   # if you make changes to the shell script run with --force-recreate
   mayhem-action-example-pusher:
     image: alpine

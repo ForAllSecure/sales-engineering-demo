@@ -20,12 +20,12 @@ Exeute:
 docker-compose up -d
 ```
 
-The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from http://localhost:8080/admin/runners > Register an instance runner. Copy it there, paste it into the `GITLAB_RUNNER_REGISTRATION_TOKEN` field in `.env`.
+The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from [/admin/runners](http://localhost:8080/admin/runners) > `Register an instance runner`. Copy the token from there and paste it into the `GITLAB_RUNNER_REGISTRATION_TOKEN` field in `.env`.
 
-Then.
+Then run.
 
 ```sh
-docker-compose up gitlab-runner --force-recreate
+docker-compose up gitlab-runner --force-recreate -d
 ```
 
 If you end up with multiple runners, that's okay. As long as one of them works.
