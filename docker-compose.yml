@@ -14,30 +14,16 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    depends_on:
-      - postgresql
-    links:
-      - postgresql:postgresql
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD:?}'
-
-        postgresql['enable'] = false
-        gitlab_rails['db_username'] = "gitlab"
-        gitlab_rails['db_password'] = "gitlab"
-        gitlab_rails['db_host'] = "postgresql"
-        gitlab_rails['db_port'] = "5432"
-        gitlab_rails['db_database'] = "gitlabhq_production"
-        gitlab_rails['db_adapter'] = 'postgresql'
-        gitlab_rails['db_encoding'] = 'utf8'
-
         external_url 'http://gitlab'
+      # Set the runner registration token to equal the root password
+      GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN: ${GITLAB_ROOT_PASSWORD}
+      GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
     ports:
       - "8080:80"
       - "8043:443"
       - "8022:22"
-    environment:
-      - GITLAB_ROOT_PASSWORD
     volumes:
       # inserts PAT token (from .env GITLAB_ROOT_PASSWORD)
       - ./gitlab/25_api_personal_access_token.rb:/opt/gitlab/embedded/service/gitlab-rails/db/fixtures/production/25_api_personal_access_token.rb
@@ -51,7 +37,7 @@ services:
   gitlab-runner-register:
     image: gitlab/gitlab-runner
     # todo: probably we want a docker type executor, not shell
-    command: 'register --executor shell --registration-token ${GITLAB_RUNNER_REGISTRATION_TOKEN} --url http://gitlab -n'
+    command: 'register --executor shell --registration-token ${GITLAB_ROOT_PASSWORD} --url http://gitlab -n'
     restart: "no"
     depends_on:
       gitlab:
@@ -88,35 +74,20 @@ services:
       #- /var/run/docker.sock:/var/run/docker.sock
 
   # Gitlabs Configuration as Code (CasC).
-  # Currently not used - keeping around for a bit
-  # gitlab-casc:
-  #   image: hoffmannlaroche/gcasc
-  #   restart: "no"
-  #   depends_on:
-  #     gitlab:
-  #       condition: service_healthy
-  #   links:
-  #     - gitlab:gitlab
-  #   volumes:
-  #     - ./gcacs:/workspace
-  #   environment:
-  #     - GITLAB_CLIENT_CONFIG_FILE=/workspace/client.cfg
-  #     - GITLAB_CONFIG_FILE=/workspace/config.yml
-  #     - GITLAB_ROOT_PASSWORD
-
-  # had issues with the embedded postgres, so use an external one
-  postgresql:
-    restart: always
-    image: postgres:13.6-alpine
-    container_name: gitlab-postgres
+  # Kind of overkill to use since we only create instance variables currently
+  gitlab-casc:
+    image: hoffmannlaroche/gcasc
+    restart: "no"
+    depends_on:
+      gitlab:
+        condition: service_healthy
+    links:
+      - gitlab:gitlab
+    volumes:
+      - ./gcacs:/workspace
     environment:
-      - POSTGRES_USER=gitlab
-      - POSTGRES_PASSWORD=gitlab
-      - POSTGRES_DB=gitlabhq_production
-      - TZ=America/Bogota
-      - PGDATA=/data
-    # Currently not persisting volumes because this is a throwaway container
-    # volumes:
-    #   - ./gitlab-db-data:/data
-    ports:
-      - "5432:5432"
+      - GITLAB_CLIENT_CONFIG_FILE=/workspace/client.cfg
+      - GITLAB_CONFIG_FILE=/workspace/config.yml
+      - GITLAB_CLIENT_TOKEN=${GITLAB_ROOT_PASSWORD}
+      - MAPI_TOKEN=${MAPI_TOKEN}
+

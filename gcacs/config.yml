@@ -24,8 +24,7 @@ features:
   #     - myuser
 
 instance_variables:
-  MY_VARIABLE: 'value of my instance variable'
-  # ANOTHER_VARIABLE:
-  #   value: !env SOME_PASSWORD
-  #   masked: true
-  #   protected: false
+  MAPI_TOKEN:
+    value: !env MAPI_TOKEN
+    masked: true
+    protected: false

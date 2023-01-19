@@ -10,25 +10,17 @@ Create a `.env` file in the root with
 
 ```
 GITLAB_ROOT_PASSWORD=<something complicated>
-GITLAB_RUNNER_REGISTRATION_TOKEN=<leave empty>
+MAPI_TOKEN=<your mapi token>
 ```
 
-This password will be used as both root login password and root API token. We'll fill in the registration token layer.
+This password will be used as both root login password, runner registration token and root API token.
 
 Execute:
 ```sh
 docker-compose up -d
 ```
 
-The configgers should wait until Gitlab is up and running (via health check). Some of them will fail, mainly because the Runner Registration token needs to be retrieved manually from [/admin/runners](http://localhost:8080/admin/runners) > `Register an instance runner`. Copy the token from there and paste it into the `GITLAB_RUNNER_REGISTRATION_TOKEN` field in `.env`.
-
-Then run.
-
-```sh
-docker-compose up gitlab-runner --force-recreate -d
-```
-
-If you end up with multiple runners, that's okay. As long as one of them works.
+The configgers should wait until Gitlab is up and running (via health check). 
 
 # Gitlab project manual setup work (for now, can be automated)
 
@@ -56,14 +48,10 @@ Also, when it's sucking up CPU, use the `docker-compose pause` and `docker-compo
 # Cheat sheet
 Pushing a repo into Gitlab
 ```sh
-git push --set-upstream http://root:qq6UGBwB1orpinslu3e9Tr7M0CawTv2a7U8BJbA6eNg=@localhost:8080/root/$(git rev-parse --show-toplevel | xargs basename).git $(git rev-parse --abbrev-ref HEAD)
+git push --set-upstream http://root:<password>@localhost:8080/root/$(git rev-parse --show-toplevel | xargs basename).git $(git rev-parse --abbrev-ref HEAD)
 ```
 
 Pip dependencies needed for the python3 script to get a PAT
 ```sh
 pip3 install requests bs4 lxml
 ```
-
-# Appendix
-To retrieve registration token automatically in the future
-https://stackoverflow.com/questions/63137092/how-to-get-gitlab-runner-registration-token-from-command-line
