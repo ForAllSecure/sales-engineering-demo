@@ -1,8 +1,3 @@
-
-
-Gitlab allows you to mirror a Github repository but it's not available for Gitlab CE:
-https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/
-
 # Installation
 
 - Clone the repository and cd into it
@@ -43,3 +38,8 @@ Pip dependencies needed for the python3 script to get a PAT
 ```sh
 pip3 install requests bs4 lxml
 ```
+
+Gitlab allows you to mirror a Github repository but it's not available for Gitlab CE:
+https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/
+
+So we're doing it with a docker container that checks for and pushes changes every X seconds.
