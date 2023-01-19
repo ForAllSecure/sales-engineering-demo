@@ -20,7 +20,9 @@ Execute:
 docker-compose up -d
 ```
 
-The configgers should wait until Gitlab is up and running (via health check). 
+The configgers should wait until Gitlab is up and running (via health check).
+
+When the containers are up, find gitlab at localhost:8080, log in with username `root` and the password from your `.env` file.
 
 # When you want to stop
 Shut down with
