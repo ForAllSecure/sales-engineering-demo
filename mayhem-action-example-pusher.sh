@@ -12,9 +12,10 @@ done
 
 while true
 do
-   for repository in mapi-action-examples mcode-action-examples
-   do
-        ( cd $repository.git && git remote update && git push --mirror http://root:${GITLAB_ROOT_PASSWORD}@gitlab/root/$repository.git )
-   done
-   sleep 60
+    for repository in mapi-action-examples mcode-action-examples
+    do
+        # -o merge_request.create tells Gitlab to automatically create a Merge Request
+        ( cd $repository.git && git remote update && git push -o merge_request.create --mirror http://root:${GITLAB_ROOT_PASSWORD}@gitlab/root/$repository.git )
+    done
+    sleep 60
 done

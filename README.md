@@ -22,15 +22,6 @@ docker-compose up -d
 
 The configgers should wait until Gitlab is up and running (via health check). 
 
-# Gitlab project manual setup work (for now, can be automated)
-
-- Go to localhost:8080 and log in
-- Go to Projects > mapi-action-examples
-- Go to Settings > Merge Request and enable merge requests to require a successful pipeline request
-- Go to merge request and create a new one from `bad-login-endpoint` to `main`
-- ???
-- Profit!
-
 # When you want to stop
 Shut down with
 ```sh
@@ -39,11 +30,6 @@ docker-compose stop
 (not `down`, since Gitlab will reinstall itself afterwards then)
 
 Also, when it's sucking up CPU, use the `docker-compose pause` and `docker-compose unpause` commands.
-
-# Future work
-
-- Currently clones and pushes the current state of the Github project into Gitlab. We could modify the scripts so it can be ran multiple times where if the project already exists it pushes whatever new code we find on Github, or deletes the projects via REST API or something
-- Obviously we'd love to bypass the runner registration token. There's some links in the Appendix, it seems doable.
 
 # Cheat sheet
 Pushing a repo into Gitlab
