@@ -1,6 +1,11 @@
 version: "3.4"
 services:
-  # the main deal
+
+  jenkins:
+    build: ./jenkins
+      ports:
+      - "8081:8080"
+
   gitlab:
     # Using the arm64 version for Mac M1. Use the commented version otherwise
     # image: 'gitlab/gitlab-ce'
@@ -33,7 +38,7 @@ services:
       #   - ./gitlab-logs:/var/log/gitlab
       #   - ./gitlab-data:/var/opt/gitlab
 
-  # this registers the runner and writes to the config.toml
+  # this registers the runner and writes to the config.toml, which is used by gitlab-runner
   gitlab-runner-register:
     image: gitlab/gitlab-runner
     # todo: probably we want a docker type executor, not shell

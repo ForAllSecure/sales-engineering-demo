@@ -3,12 +3,13 @@
 - Clone the repository and cd into it
 Create a `.env` file in the root with
 
-```
+```env
+# This password will be used as both root login password, runner registration token and root API token.
 GITLAB_ROOT_PASSWORD=<something complicated>
+# The admin password to log in to Jenkins
+JENKINS_ADMIN_PASSWORD=<something complicated>
 MAPI_TOKEN=<your mapi token>
 ```
-
-This password will be used as both root login password, runner registration token and root API token.
 
 Execute:
 ```sh

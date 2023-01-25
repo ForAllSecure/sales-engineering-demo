@@ -7,7 +7,7 @@ apk fix && apk --no-cache --update add git curl
 for repository in mapi-action-examples mcode-action-examples
 do
     rm -rf  $repository.git
-    git clone --mirror https://github.com/vlussenburg/$repository/
+    git clone --mirror https://github.com/ForAllSecure/$repository/
 done
 
 while true

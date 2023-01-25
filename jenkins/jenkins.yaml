@@ -1,0 +1,64 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy: "loggedInUsersCanDoAnything"
+  disableRememberMe: false
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 1
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: false
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        password: "${JENKINS_ADMIN_PASSWORD}"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+
+jobs:
+  - script: >
+      multibranchPipelineJob('Mayhem for Code Examples') {
+        branchSources {
+          git {
+            id = 'mcode-action-examples'
+            remote('https://github.com/ForAllSecure/mcode-action-examples')
+          }
+        }
+      }
+  - script: >
+      multibranchPipelineJob('Mayhem for API Examples') {
+        branchSources {
+          git {
+            id = 'mapi-action-examples'
+            remote('https://github.com/ForAllSecure/mapi-action-examples')
+          }
+        }
+      }
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        - usernamePassword:
+            scope:    GLOBAL
+            id:       unused
+            username: admin
+            password: admin
+        - string:
+            scope:    GLOBAL
+            id:       MAPI_TOKEN
+            secret:   ${MAPI_TOKEN}
+            description: Mayhem for API Token (Prod)
