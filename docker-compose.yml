@@ -10,9 +10,7 @@ services:
       - JENKINS_ADMIN_PASSWORD
 
   gitlab:
-    # Using the arm64 version for Mac M1. Use the commented version otherwise
-    # image: 'gitlab/gitlab-ce'
-    image: 'yrzr/gitlab-ce-arm64v8'
+    image: '${GITLAB_IMAGE_OVERRIDE:-gitlab/gitlab-ce}'
     restart: always
     hostname: 'gitlab'
     privileged: true
