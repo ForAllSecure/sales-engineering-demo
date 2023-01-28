@@ -10,6 +10,12 @@ ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
 # Needed to run the pipelines
 USER root
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip jq docker.io
+
+RUN usermod -aG systemd-network jenkins
+
+# Preinstall custom aarch64 version (2.3.0) of mayhem 
+ADD https://drive.google.com/uc?export=download&id=1pkooWxN5MBSTmvigzLi9Q_wgD-pBSjue /usr/local/bin/mayhem-aarch64
+RUN chmod a+rx /usr/local/bin/mayhem-aarch64
 
 USER jenkins

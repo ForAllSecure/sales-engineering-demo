@@ -1,7 +1,11 @@
+# Introduction
+
+This project creates a demo environment for Mayhem with gitlab-ce and jenkins. It prepopulates both servers with the mayhem-example repositories and automates the creation of all merge requests, jobs, etc to demo both Mayhem for Code and Mayhem for API.
+
 # Installation
 
 - Clone the repository and cd into it
-Create a `.env` file in the root with
+1. Create a `.env` file in the root with
 
 ```env
 # This password will be used as both root login password, runner registration token and root API token.
@@ -16,14 +20,16 @@ MAYHEM_USERNAME=<youruser>@forallsecure.com
 GITLAB_IMAGE_OVERRIDE=yrzr/gitlab-ce-arm64v8
 ```
 
-Execute:
+2. Download `mayhem-aarch64` (unofficial build) if you're on Mac M1 and place it in both the `jenkins` and `gitlab-runner` folders.
+
+3. Execute:
 ```sh
 docker-compose up -d
 ```
 
 The configgers should wait until Gitlab is up and running (via health check).
 
-When the containers are up, find gitlab at localhost:8080, log in with username `root` and the password from your `.env` file.
+When the containers are up, find gitlab at localhost:8080, log in with username `root` and the password from your `.env` file. Find jenkins at localhost:80801, log in with username `admin` and the password from your `.env` file.
 
 # When you want to stop
 Shut down with

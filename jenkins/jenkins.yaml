@@ -54,9 +54,10 @@ credentials:
       - credentials:
         - usernamePassword:
             scope:    GLOBAL
-            id:       unused
-            username: admin
-            password: admin
+            id:       MAYHEM_CREDENTIALS
+            username: ${MAYHEM_USERNAME}
+            password: ${MAYHEM_TOKEN}
+            description: Mayhem for Code (Demo)
         - string:
             scope:    GLOBAL
             id:       MAPI_TOKEN
@@ -64,16 +65,6 @@ credentials:
             description: Mayhem for API Token (Prod)
         - string:
             scope:    GLOBAL
-            id:       MAYHEM_TOKEN
-            secret:   ${MAYHEM_TOKEN}
-            description: Mayhem for Code Token (Demo)
-        - string:
-            scope:    GLOBAL
             id:       MAYHEM_URL
             secret:   ${MAYHEM_URL}
-            description: Mayhem for Code URL (Demo)
-        - string:
-            scope:    GLOBAL
-            id:       MAYHEM_USERNAME
-            secret:   ${MAYHEM_USERNAME}
             description: Mayhem for Code URL (Demo)
