@@ -32,3 +32,7 @@ instance_variables:
     value: !env MAYHEM_TOKEN
     masked: true
     protected: false
+  MAYHEM_URL:
+    value: !env MAYHEM_URL
+    masked: true
+    protected: false

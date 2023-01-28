@@ -67,3 +67,8 @@ credentials:
             id:       MAYHEM_TOKEN
             secret:   ${MAYHEM_TOKEN}
             description: Mayhem for Code Token (Demo)
+        - string:
+            scope:    GLOBAL
+            id:       MAYHEM_URL
+            secret:   ${MAYHEM_URL}
+            description: Mayhem for Code URL (Demo)

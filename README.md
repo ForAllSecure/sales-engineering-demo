@@ -9,6 +9,8 @@ GITLAB_ROOT_PASSWORD=<something complicated>
 # The admin password to log in to Jenkins
 JENKINS_ADMIN_PASSWORD=<something complicated>
 MAPI_TOKEN=<your mapi token>
+MAYHEM_TOKEN=<your mayhem for code token>
+MAYHEM_URL=https://demo.forallsecure.com
 # If you are on a M1 Mac (arm processor), add this and otherwise, comment the line.
 GITLAB_IMAGE_OVERRIDE=yrzr/gitlab-ce-arm64v8
 ```

@@ -9,6 +9,7 @@ services:
       - MAPI_TOKEN
       - JENKINS_ADMIN_PASSWORD
       - MAYHEM_TOKEN
+      - MAYHEM_URL
 
   gitlab:
     image: '${GITLAB_IMAGE_OVERRIDE:-gitlab/gitlab-ce}'
@@ -96,4 +97,5 @@ services:
       - GITLAB_CLIENT_TOKEN=${GITLAB_ROOT_PASSWORD}
       - MAPI_TOKEN=${MAPI_TOKEN}
       - MAYHEM_TOKEN=${MAYHEM_TOKEN}
+      - MAYHEM_URL=${MAYHEM_URL}
 
