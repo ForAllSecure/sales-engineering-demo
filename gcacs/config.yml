@@ -2,12 +2,14 @@ appearance:
   title: "ForAllSecure demo Gitlab"
   #logo: "https://storage.googleapis.com/forallsecure-website.appspot.com/fas-logo-block.svg"
 
+# see https://docs.gitlab.com/ee/api/settings.html
 settings:
   # elasticsearch:
   #   url: http://elasticsearch.mygitlab.com
   #   username: !env ELASTICSEARCH_USERNAME
   #   password: !env ELASTICSEARCH_PASSWORD
   recaptcha_enabled: no
+  auto_devops_enabled: no
   #terms: !include toc.md
   # plantuml:
   #   enabled: true
