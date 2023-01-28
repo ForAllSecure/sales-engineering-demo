@@ -11,6 +11,7 @@ JENKINS_ADMIN_PASSWORD=<something complicated>
 MAPI_TOKEN=<your mapi token>
 MAYHEM_TOKEN=<your mayhem for code token>
 MAYHEM_URL=https://demo.forallsecure.com
+MAYHEM_USERNAME=<youruser>@forallsecure.com
 # If you are on a M1 Mac (arm processor), add this and otherwise, comment the line.
 GITLAB_IMAGE_OVERRIDE=yrzr/gitlab-ce-arm64v8
 ```

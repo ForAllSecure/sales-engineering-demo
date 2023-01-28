@@ -72,3 +72,8 @@ credentials:
             id:       MAYHEM_URL
             secret:   ${MAYHEM_URL}
             description: Mayhem for Code URL (Demo)
+        - string:
+            scope:    GLOBAL
+            id:       MAYHEM_USERNAME
+            secret:   ${MAYHEM_USERNAME}
+            description: Mayhem for Code URL (Demo)
