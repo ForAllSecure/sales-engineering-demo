@@ -8,6 +8,7 @@ services:
     environment:
       - MAPI_TOKEN
       - JENKINS_ADMIN_PASSWORD
+      - MAYHEM_TOKEN
 
   gitlab:
     image: '${GITLAB_IMAGE_OVERRIDE:-gitlab/gitlab-ce}'
@@ -75,8 +76,7 @@ services:
       - gitlab-runner-register
     volumes:
       - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
-      # for mCode later
-      #- /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # Gitlabs Configuration as Code (CasC).
   # Kind of overkill to use since we only create instance variables currently
@@ -95,4 +95,5 @@ services:
       - GITLAB_CONFIG_FILE=/workspace/config.yml
       - GITLAB_CLIENT_TOKEN=${GITLAB_ROOT_PASSWORD}
       - MAPI_TOKEN=${MAPI_TOKEN}
+      - MAYHEM_TOKEN=${MAYHEM_TOKEN}
 

@@ -28,3 +28,7 @@ instance_variables:
     value: !env MAPI_TOKEN
     masked: true
     protected: false
+  MAYHEM_TOKEN:
+    value: !env MAYHEM_TOKEN
+    masked: true
+    protected: false

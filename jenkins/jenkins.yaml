@@ -62,3 +62,8 @@ credentials:
             id:       MAPI_TOKEN
             secret:   ${MAPI_TOKEN}
             description: Mayhem for API Token (Prod)
+        - string:
+            scope:    GLOBAL
+            id:       MAYHEM_TOKEN
+            secret:   ${MAYHEM_TOKEN}
+            description: Mayhem for Code Token (Demo)
