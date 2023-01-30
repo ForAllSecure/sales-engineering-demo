@@ -23,9 +23,9 @@ services:
     privileged: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 50
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab'
