@@ -6,9 +6,10 @@ services:
     hostname: 'jenkins'
     ports:
       - "8081:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - socat
     environment:
+      - DOCKER_HOST=tcp://socat:2375
       - MAPI_TOKEN
       - JENKINS_ADMIN_PASSWORD
       - MAYHEM_TOKEN
@@ -76,12 +77,15 @@ services:
   # this is the actual runner that depends on being bootstrapped by gitlab-runner-register
   gitlab-runner:
     build: ./gitlab-runner
+    environment:
+      - DOCKER_HOST=tcp://socat:2375
+    links:
+      - socat
     depends_on:
       # needs to be registered first before it can start running
       - gitlab-runner-register
     volumes:
       - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
-      - /var/run/docker.sock:/var/run/docker.sock
 
   # Gitlabs Configuration as Code (CasC).
   # Kind of overkill to use since we only create instance variables currently
@@ -104,3 +108,16 @@ services:
       - MAYHEM_URL=${MAYHEM_URL}
       - MAYHEM_USERNAME=${MAYHEM_USERNAME}
 
+  # To work around problems mounting /var/run/docker.sock directly on Mac on jenkins and gitlab
+  # Will get 'Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock'
+  # This is not easily fixable since the mount group will be influenced by the GID on the host OS.
+  #
+  # See https://www.benjaminpack.com/blog/docker-jenkins-mac/
+  # See https://stackoverflow.com/questions/61490937/cant-connect-to-docker-inside-jenkins-docker-container-macos
+  socat:
+      image: alpine/socat
+      command: TCP4-LISTEN:2375,fork,reuseaddr UNIX-CONNECT:/var/run/docker.sock
+      volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+      expose:
+          - "2375"
