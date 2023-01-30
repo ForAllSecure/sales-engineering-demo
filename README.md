@@ -20,16 +20,14 @@ MAYHEM_USERNAME=<youruser>@forallsecure.com
 GITLAB_IMAGE_OVERRIDE=yrzr/gitlab-ce-arm64v8
 ```
 
-2. Download `mayhem-aarch64` (unofficial build) if you're on Mac M1 and place it in both the `jenkins` and `gitlab-runner` folders.
-
-3. Execute:
+2. Execute:
 ```sh
 docker-compose up -d
 ```
 
 The configgers should wait until Gitlab is up and running (via health check).
 
-When the containers are up, find gitlab at localhost:8080, log in with username `root` and the password from your `.env` file. Find jenkins at localhost:80801, log in with username `admin` and the password from your `.env` file.
+When the containers are up, find gitlab at localhost:8080, log in with username `root` and the password from your `.env` file. Find jenkins at localhost:8081, log in with username `admin` and the password from your `.env` file.
 
 # When you want to stop
 Shut down with
