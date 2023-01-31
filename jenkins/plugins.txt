@@ -4,7 +4,6 @@ git:latest
 workflow-aggregator:latest
 dashboard-view:latest
 configuration-as-code:latest
-configuration-as-code-support:latest
 job-dsl:latest
 pam-auth:latest
 blueocean:latest
