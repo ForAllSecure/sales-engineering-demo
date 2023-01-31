@@ -8,6 +8,8 @@ services:
       - "8081:8080"
     links:
       - socat
+    depends_on:
+      - socat
     environment:
       - DOCKER_HOST=tcp://socat:2375
       - MAPI_TOKEN
@@ -67,6 +69,8 @@ services:
     command: /mayhem-action-example-pusher.sh
     restart: "no"
     depends_on:
+      gitlab-casc:
+        condition: service_completed_successfully
       gitlab:
         condition: service_healthy
     volumes:
@@ -84,6 +88,7 @@ services:
     depends_on:
       # needs to be registered first before it can start running
       - gitlab-runner-register
+      - socat
     volumes:
       - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
 
