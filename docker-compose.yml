@@ -87,8 +87,10 @@ services:
       - socat
     depends_on:
       # needs to be registered first before it can start running
-      - gitlab-runner-register
-      - socat
+      gitlab-runner-register:
+        condition: service_completed_successfully
+      socat:
+        condition: service_started
     volumes:
       - ./gitlab-runner/config.toml:/etc/gitlab-runner/config.toml
 
