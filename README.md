@@ -38,6 +38,11 @@ docker-compose stop
 
 Also, when it's sucking up CPU, use the `docker-compose pause` and `docker-compose unpause` commands.
 
+# Known issues
+
+- My job didn't fail but it was supposed to / my job failed but it wasn't supposed to
+- Sometimes, a python process is left running (bc uvicorn can't cleanly shut down using external command, you have to kill it - maybe use a different runner?) which means multiple jobs use the same python process, and thus are not getting different results. It's easiest to just restart the Jenkins/Gitlab-Runner node and rerun the job with unexpected results. A ticket to fix this better can be found [here](https://trello.com/c/InBu1Ydq/13-fix-port-is-already-in-use-for-python-api-example-jenkins-gitlab)
+
 # Cheat sheet
 Pushing a repo into Gitlab
 ```sh
