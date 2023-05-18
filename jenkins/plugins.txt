@@ -8,3 +8,4 @@ job-dsl:latest
 pam-auth:latest
 blueocean:latest
 warnings-ng:latest
+cobertura:latest
