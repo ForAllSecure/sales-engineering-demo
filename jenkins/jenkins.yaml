@@ -60,11 +60,16 @@ credentials:
             description: Mayhem for Code (Demo)
         - string:
             scope:    GLOBAL
+            id:       MAYHEM_URL
+            secret:   ${MAYHEM_URL}
+            description: Mayhem for API URL (Demo)
+        - string:
+            scope:    GLOBAL
             id:       MAPI_TOKEN
             secret:   ${MAPI_TOKEN}
             description: Mayhem for API Token (Prod)
         - string:
             scope:    GLOBAL
-            id:       MAYHEM_URL
-            secret:   ${MAYHEM_URL}
+            id:       MAPI_URL
+            secret:   ${MAPI_URL}
             description: Mayhem for Code URL (Demo)
