@@ -16,6 +16,11 @@ jenkins:
   remotingSecurity:
     enabled: false
   scmCheckoutRetryCount: 0
+  globalNodeProperties:
+  - envVars:
+      env:
+        - key: MAYHEM_URL
+          value: "${MAYHEM_URL}"
   securityRealm:
     local:
       allowsSignup: false
@@ -60,16 +65,6 @@ credentials:
             description: Mayhem for Code (Demo)
         - string:
             scope:    GLOBAL
-            id:       MAYHEM_URL
-            secret:   ${MAYHEM_URL}
-            description: Mayhem for API URL (Demo)
-        - string:
-            scope:    GLOBAL
             id:       MAPI_TOKEN
             secret:   ${MAPI_TOKEN}
             description: Mayhem for API Token (Prod)
-        - string:
-            scope:    GLOBAL
-            id:       MAPI_URL
-            secret:   ${MAPI_URL}
-            description: Mayhem for Code URL (Demo)
