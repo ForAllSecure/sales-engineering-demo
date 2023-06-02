@@ -12,8 +12,7 @@ This project creates a demo environment for Mayhem with gitlab-ce and jenkins. I
 GITLAB_ROOT_PASSWORD=<something complicated>
 # The admin password to log in to Jenkins
 JENKINS_ADMIN_PASSWORD=<something complicated>
-MAPI_URL=https://beta.mayhem.security/
-MAPI_TOKEN=<your mapi token>
+MAPI_TOKEN=<your mapi token, which now can be the same as your mayhem token>
 MAYHEM_TOKEN=<your mayhem for code token>
 MAYHEM_URL=https://beta.mayhem.security/
 MAYHEM_USERNAME=<youruser>@forallsecure.com
