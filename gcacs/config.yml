@@ -26,10 +26,6 @@ features:
   #     - myuser
 
 instance_variables:
-  MAPI_URL:
-    value: !env MAPI_URL
-    masked: true
-    protected: false
   MAPI_TOKEN:
     value: !env MAPI_TOKEN
     masked: true
